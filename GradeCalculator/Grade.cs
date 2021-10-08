@@ -1,13 +1,15 @@
 ﻿namespace GradeCalculator {
     public class Grade {
         public string Name { get; set; }
-        public double Result { get; set; }
         public double Weight { get; set; }
+        public double Mark { get; set; }
+        public double Result { get; set; }
 
-        public Grade(string name, double result, double weight) {
+        public Grade(string name, double mark, double weight) {
             Name = name;
-            Result = result;
+            Mark = mark;
             Weight = weight;
+            Result = Mark / 100 * weight;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -46,42 +47,26 @@ namespace GradeCalculator {
             MenuTitle.Visibility = Visibility.Hidden;
 
 
-            //TODO MOVE TO XAML?
             //Create the grid of cells for displaying grades
-            var grid = new DataGrid {
-                ItemsSource = course.Value.Grades,
-                AutoGenerateColumns = false,
-                HeadersVisibility = DataGridHeadersVisibility.Column,
-                BorderBrush = null,
-                FontSize = 20,
-                Background = Brushes.Black,
-                Foreground = Brushes.White,
-                HorizontalGridLinesBrush = Brushes.White,
-                VerticalGridLinesBrush = Brushes.White,
-                CanUserResizeColumns = false,
-                CanUserResizeRows = false,
-                CanUserAddRows = false,
-                CanUserDeleteRows = false
-            };
+            GradeGrid.ItemsSource = course.Value.Grades;
+            GradeGrid.Visibility = Visibility.Visible;
 
             
             //Add all the columns and make them all have a black background
-            var cells = Resources["BlackCell"] as Style;
-            var headers = Resources["BlackHeader"] as Style;
-            grid.Columns.Add(new DataGridTextColumn {
-                Header = "Name", Binding = new Binding("Name"), Width = 275, CellStyle = cells, HeaderStyle = headers
-            });
-            grid.Columns.Add(new DataGridTextColumn {
-                Header = "Result", Binding = new Binding("Result"), Width = 75, CellStyle = cells, HeaderStyle = headers
-            });
-            grid.Columns.Add(new DataGridTextColumn {
-                Header = "Weight", Binding = new Binding("Weight"), Width = 75, CellStyle = cells, HeaderStyle = headers
-            });
+            foreach (var dataGridColumn in GradeGrid.Columns) {
+                dataGridColumn.Visibility = Visibility.Visible;
+            }
 
-
-            //Add the finished grid to the Displayed Grid
-            Grid.Children.Add(grid);
-            Grid.SetColumn(grid, 1);
+            //Set the binding for all columns
+            ((DataGridTextColumn) GradeGrid.Columns[0]).Binding = new Binding("Name");
+            ((DataGridTextColumn) GradeGrid.Columns[1]).Binding = new Binding("Mark");
+            ((DataGridTextColumn) GradeGrid.Columns[2]).Binding = new Binding("Weight");
+            ((DataGridTextColumn) GradeGrid.Columns[3]).Binding = new Binding("Result");
+            
+            //Add the display of grade averages etc
+            Completed.Visibility = Visibility.Visible;
+            var completed = course.Value.Grades.Sum(grade => grade.Mark);
+            Completed.Content = "Percentage Completed: " + completed;
         }
     }
 }

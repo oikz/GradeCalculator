@@ -7,16 +7,18 @@
         mc:Ignorable="d"
         Title="Grade Calculator" Height="700" Width="600"
         ResizeMode="NoResize, CanMinimize">
-    
+
     <Window.Resources>
         <Style TargetType="{x:Type DataGridCell}" x:Key="BlackCell">
-            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="BlackHeader">
-            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </Window.Resources>
-    
+
     <Grid Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -34,9 +36,33 @@
         <!--Menu and Side List box-->
         <Label Name="MenuTitle" Grid.Column="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top"
                Content="Main Menu?" Foreground="White" FontSize="40" />
-        <ListBox Name="Courses" Grid.Column="0"  HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
+        <ListBox Name="Courses" Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
                  Foreground="White" DisplayMemberPath="Value.CourseCode" FontSize="30" BorderBrush="{x:Null}"
-                 Focusable="False" SelectionChanged="ViewCourse">
-        </ListBox>
+                 Focusable="False" SelectionChanged="ViewCourse" />
+
+        <!-- Display of grades -->
+        <DataGrid Name="GradeGrid" Grid.Column="1" AutoGenerateColumns="False" HeadersVisibility="Column"
+                  BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
+                  HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
+                  CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
+                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
+                                    CellStyle="{StaticResource BlackCell}" 
+                                    HeaderStyle="{StaticResource BlackHeader}" />
+                <DataGridTextColumn Header="Mark" Visibility="Hidden" Width="75" 
+                                    CellStyle="{StaticResource BlackCell}"
+                                    HeaderStyle="{StaticResource BlackHeader}" />
+                <DataGridTextColumn Header="Weight" Visibility="Hidden" Width="75"
+                                    CellStyle="{StaticResource BlackCell}"
+                                    HeaderStyle="{StaticResource BlackHeader}" />
+                <DataGridTextColumn Header="Result" Visibility="Hidden" Width="75"
+                                    CellStyle="{StaticResource BlackCell}"
+                                    HeaderStyle="{StaticResource BlackHeader}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Name="Completed" Grid.Column="1" VerticalAlignment="Bottom" Margin="10 0 0 50" Foreground="White"
+               Background="Black" Visibility="Hidden" />
     </Grid>
 </Window>
