@@ -11,11 +11,11 @@
     <Window.Resources>
         <Style TargetType="{x:Type DataGridCell}" x:Key="BlackCell">
             <Setter Property="Background" Value="Black" />
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="White" />
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="BlackHeader">
             <Setter Property="Background" Value="Black" />
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="White" />
         </Style>
     </Window.Resources>
 
@@ -45,13 +45,12 @@
                   BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden" CellEditEnding="CellEdited">
+                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden" CurrentCellChanged="CellEdited">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
-                                    CellStyle="{StaticResource BlackCell}" 
-                                    HeaderStyle="{StaticResource BlackHeader}">
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Mark" Visibility="Hidden" Width="75" 
+                                    CellStyle="{StaticResource BlackCell}"
+                                    HeaderStyle="{StaticResource BlackHeader}" />
+                <DataGridTextColumn Header="Mark" Visibility="Hidden" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
                 <DataGridTextColumn Header="Weight" Visibility="Hidden" Width="75"
@@ -63,13 +62,17 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 80" Foreground="White"
-               Visibility="Hidden" />
-        
-        <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 60" Foreground="White"
-                Visibility="Hidden" />
-        
-        <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 40" Foreground="White"
-                Visibility="Hidden" />
+        <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Padding="10 0 0 80" Foreground="White" Visibility="Hidden" />
+
+        <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Padding="10 0 0 60" Foreground="White" Visibility="Hidden" />
+
+        <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Padding="10 0 0 40" Foreground="White" Visibility="Hidden" />
+
+        <Button Name="AddGrade" Grid.Column="1" Content="Add Grade" HorizontalAlignment="Left"
+                VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
+                Visibility="Hidden" Click="AddNewGrade"/>
     </Grid>
 </Window>
