@@ -19,8 +19,8 @@
     
     <Grid Name="Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="List" Width="Auto" />
-            <ColumnDefinition Name="Display" Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <!--Background-->
@@ -34,9 +34,9 @@
         <!--Menu and Side List box-->
         <Label Name="MenuTitle" Grid.Column="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top"
                Content="Main Menu?" Foreground="White" FontSize="40" />
-        <ListBox Grid.Column="0" Name="Courses" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
-                 Foreground="White" DisplayMemberPath="CourseCode" FontSize="30" BorderBrush="{x:Null}"
-                 Focusable="False">
+        <ListBox Name="Courses" Grid.Column="0"  HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
+                 Foreground="White" DisplayMemberPath="Value.CourseCode" FontSize="30" BorderBrush="{x:Null}"
+                 Focusable="False" SelectionChanged="ViewCourse">
         </ListBox>
     </Grid>
 </Window>

@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GradeCalculator {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main window of the program, containing all logic
     /// </summary>
     public partial class MainWindow : Window {
-        private List<Course> courses;
+        private Dictionary<string, Course> courses;
 
         public MainWindow() {
             InitializeComponent();
@@ -30,21 +21,35 @@ namespace GradeCalculator {
             var course1 = new Course("Software Design", "SWEN225");
             course1.Grades.Add(new Grade("Assignment 1", 100, 15));
             course1.Grades.Add(new Grade("Assignment 2", 100, 15));
-            course1.Grades.Add(new Grade("Assignment 3", 100, 25));
+            course1.Grades.Add(new Grade("Group Project", 100, 40));
             var course2 = new Course("Clouds and Networking", "NWEN243");
-            courses = new List<Course> {course1, course2};
+            course2.Grades.Add(new Grade("Project 1", 100, 15));
+            course2.Grades.Add(new Grade("Project 2", 100, 15));
+            course2.Grades.Add(new Grade("Project 3", 100, 15));
+            courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
 
             Courses.ItemsSource = courses;
-            Courses.SelectionChanged += ViewCourse;
         }
 
+        /// <summary>
+        /// View a course's information/grades by clicking it in the sidebar
+        /// </summary>
+        /// <param name="sender">The source of the event</param>
+        /// <param name="args">Event arguments</param>
         private void ViewCourse(object sender, SelectionChangedEventArgs args) {
-            //Show the course information
+            //Get name from the source
+            if (!(((ListBox) sender).SelectedItem is KeyValuePair<string, Course> course)) {
+                return;
+            }
+
+            //Hide the menu title
             MenuTitle.Visibility = Visibility.Hidden;
 
-            
+
+            //TODO MOVE TO XAML?
+            //Create the grid of cells for displaying grades
             var grid = new DataGrid {
-                ItemsSource = courses[0].Grades,
+                ItemsSource = course.Value.Grades,
                 AutoGenerateColumns = false,
                 HeadersVisibility = DataGridHeadersVisibility.Column,
                 BorderBrush = null,
@@ -59,24 +64,22 @@ namespace GradeCalculator {
                 CanUserDeleteRows = false
             };
 
-
+            
+            //Add all the columns and make them all have a black background
+            var cells = Resources["BlackCell"] as Style;
+            var headers = Resources["BlackHeader"] as Style;
             grid.Columns.Add(new DataGridTextColumn {
-                Header = "Name", Binding = new Binding("Name"), Width = 275
+                Header = "Name", Binding = new Binding("Name"), Width = 275, CellStyle = cells, HeaderStyle = headers
             });
             grid.Columns.Add(new DataGridTextColumn {
-                Header = "Result", Binding = new Binding("Result"), Width = 75
+                Header = "Result", Binding = new Binding("Result"), Width = 75, CellStyle = cells, HeaderStyle = headers
             });
             grid.Columns.Add(new DataGridTextColumn {
-                Header = "Weight", Binding = new Binding("Weight"), Width = 75
+                Header = "Weight", Binding = new Binding("Weight"), Width = 75, CellStyle = cells, HeaderStyle = headers
             });
 
 
-            grid.Columns[0].CellStyle = Resources["BlackCell"] as Style;
-            grid.Columns[0].HeaderStyle = Resources["BlackHeader"] as Style;
-            grid.Columns[1].CellStyle = Resources["BlackCell"] as Style;
-            grid.Columns[1].HeaderStyle = Resources["BlackHeader"] as Style;
-            grid.Columns[2].CellStyle = Resources["BlackCell"] as Style;
-            grid.Columns[2].HeaderStyle = Resources["BlackHeader"] as Style;
+            //Add the finished grid to the Displayed Grid
             Grid.Children.Add(grid);
             Grid.SetColumn(grid, 1);
         }
