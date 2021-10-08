@@ -10,12 +10,13 @@ namespace GradeCalculator {
     /// Main window of the program, containing all logic
     /// </summary>
     public partial class MainWindow : Window {
-        private Dictionary<string, Course> courses;
+        private Dictionary<string, Course> _courses;
+        private Course _currentCourse;
 
         public MainWindow() {
             InitializeComponent();
 
-            //TODO Load the files from XML or something?
+            //TODO Load the files from XML/JSON or something?
 
 
             //Placeholder
@@ -27,9 +28,9 @@ namespace GradeCalculator {
             course2.Grades.Add(new Grade("Project 1", 100, 15));
             course2.Grades.Add(new Grade("Project 2", 100, 15));
             course2.Grades.Add(new Grade("Project 3", 100, 15));
-            courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
+            _courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
 
-            Courses.ItemsSource = courses;
+            Courses.ItemsSource = _courses;
         }
 
         /// <summary>
@@ -42,6 +43,8 @@ namespace GradeCalculator {
             if (!(((ListBox) sender).SelectedItem is KeyValuePair<string, Course> course)) {
                 return;
             }
+
+            _currentCourse = course.Value;
 
             //Hide the menu title
             MenuTitle.Visibility = Visibility.Hidden;
@@ -63,10 +66,42 @@ namespace GradeCalculator {
             ((DataGridTextColumn) GradeGrid.Columns[2]).Binding = new Binding("Weight");
             ((DataGridTextColumn) GradeGrid.Columns[3]).Binding = new Binding("Result");
             
+            //Calculate and display the remaining values at the bottom
+            CalculateValues();
+        }
+
+        /// <summary>
+        /// Method called when a cell is updated
+        /// Want to recalculate all of the values based on it's changes
+        /// </summary>
+        /// <param name="sender">The origin of this event</param>
+        /// <param name="args">The arguments supplied with the event</param>
+        private void CellEdited(object sender, DataGridCellEditEndingEventArgs args) {
+            foreach (var grade in _currentCourse.Grades) {
+                grade.UpdateResult();
+            }
+            CalculateValues();
+        }
+
+        /// <summary>
+        /// Calculate and display all of the averages, percentages etc based on the results
+        /// </summary>
+        private void CalculateValues() {
             //Add the display of grade averages etc
             Completed.Visibility = Visibility.Visible;
-            var completed = course.Value.Grades.Sum(grade => grade.Mark);
-            Completed.Content = "Percentage Completed: " + completed;
+            var completed = _currentCourse.Grades.Sum(grade => grade.Result);
+            Completed.Content = "Current Percentage:\t\t" + completed + "%";
+            
+            CompletedPercentage.Visibility = Visibility.Visible;
+            var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
+            CompletedPercentage.Content = "Percentage Completed:\t\t" + completedPercentage + "%";
+            
+            
+            AverageGrade.Visibility = Visibility.Visible;
+            var average = _currentCourse.Grades.Sum(grade => grade.Mark);
+            average /= _currentCourse.Grades.Count;
+            AverageGrade.Content = "Average Mark:\t\t\t" + average;
+            
         }
     }
 }

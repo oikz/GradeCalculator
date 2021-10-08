@@ -45,11 +45,12 @@
                   BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden">
+                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden" CellEditEnding="CellEdited">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
                                     CellStyle="{StaticResource BlackCell}" 
-                                    HeaderStyle="{StaticResource BlackHeader}" />
+                                    HeaderStyle="{StaticResource BlackHeader}">
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Mark" Visibility="Hidden" Width="75" 
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
@@ -62,7 +63,13 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Name="Completed" Grid.Column="1" VerticalAlignment="Bottom" Margin="10 0 0 50" Foreground="White"
-               Background="Black" Visibility="Hidden" />
+        <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 80" Foreground="White"
+               Visibility="Hidden" />
+        
+        <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 60" Foreground="White"
+                Visibility="Hidden" />
+        
+        <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="10 0 0 40" Foreground="White"
+                Visibility="Hidden" />
     </Grid>
 </Window>
