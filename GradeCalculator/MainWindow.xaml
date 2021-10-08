@@ -5,11 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GradeCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="600">
+        Title="Grade Calculator" Height="700" Width="600"
+        ResizeMode="NoResize">
     <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="684" VerticalAlignment="Center" Width="150" Fill="Black"/>
-        <Rectangle HorizontalAlignment="Left" Height="684" Margin="150,0,0,0" VerticalAlignment="Center" Width="450" Fill="Black"/>
-        <Rectangle HorizontalAlignment="Left" Height="684" Margin="150,0,0,0" Stroke="White" Fill="White" VerticalAlignment="Top" Width="1"/>
 
+        <!--Background-->
+        <Rectangle HorizontalAlignment="Left" Height="684" Width="150" VerticalAlignment="Center" Fill="Black" />
+        <Rectangle HorizontalAlignment="Left" Height="684" Width="450" Margin="150,0,0,0" VerticalAlignment="Center" Fill="Black" />
+        <Rectangle HorizontalAlignment="Left" Height="684" Width="1" Margin="150,0,0,0" Stroke="White" Fill="White"
+                   VerticalAlignment="Top" />
+
+        <!--Menu and Side List box-->
+        <Label HorizontalAlignment="Left" Height="100" Margin="175, 10, 0, 0" VerticalAlignment="Top"
+               Content="Main Menu? " Foreground="White" FontSize="40" />
+        <ListBox Name="Courses" HorizontalAlignment="Left" Height="684" Width="150" Background="Black" Foreground="White" DisplayMemberPath="CourseCode" FontSize="30"/>
     </Grid>
 </Window>

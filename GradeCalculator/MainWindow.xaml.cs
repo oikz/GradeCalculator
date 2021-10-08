@@ -20,10 +20,16 @@ namespace GradeCalculator {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e) {
-            ((Button) sender).Content = "Hoge";
+            //TODO Load the files from XML or something?
+
+
+            //Placeholder
+            var course1 = new Course("Software Design", "SWEN225");
+            var course2 = new Course("Clouds and Networking", "NWEN243");
+            var courses = new List<Course> {course1, course2};
+
+            Courses.ItemsSource = courses;
         }
     }
 }
