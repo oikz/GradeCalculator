@@ -11,10 +11,5 @@ namespace GradeCalculator {
             CourseCode = courseCode;
             Grades = new List<Grade>();
         }
-
-
-        public override string ToString() {
-            return "Hoge";
-        }
     }
 }
