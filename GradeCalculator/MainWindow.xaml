@@ -46,7 +46,7 @@
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
                   CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden"
-                  CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown">
+                  CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown" PreviewTextInput="GridTextValidation">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
                                     CellStyle="{StaticResource BlackCell}"

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace GradeCalculator {
     /// <summary>
@@ -89,6 +89,33 @@ namespace GradeCalculator {
             CalculateValues();
         }
 
+
+        /// <summary>
+        /// Calculate and display all of the averages, percentages etc based on the results
+        /// </summary>
+        private void CalculateValues() {
+            //Add the display of grade averages etc
+            Completed.Visibility = Visibility.Visible;
+            var completed = _currentCourse.Grades.Sum(grade => grade.Result);
+            Completed.Content = "Current Percentage:\t\t" + Math.Round(completed, 2) + "%";
+
+            CompletedPercentage.Visibility = Visibility.Visible;
+            var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
+            CompletedPercentage.Content = "Percentage Completed:\t\t" + Math.Round(completedPercentage, 2) + "%";
+
+            AverageGrade.Visibility = Visibility.Visible;
+            var average = _currentCourse.Grades.Sum(grade => grade.Mark);
+            average /= _currentCourse.Grades.Count;
+            AverageGrade.Content = "Average Mark:\t\t\t" + Math.Round(average, 2);
+
+            try {
+                GradeGrid.Items.Refresh();
+            } catch (InvalidOperationException) {
+            }
+            //Invalid during edit or add
+        }
+
+
         /// <summary>
         /// Method called when a cell is updated
         /// Want to recalculate all of the values based on it's changes
@@ -100,7 +127,6 @@ namespace GradeCalculator {
                 grade.UpdateResult();
             }
 
-            GradeGrid.CommitEdit();
             GradeGrid.CommitEdit();
             CalculateValues();
         }
@@ -119,35 +145,25 @@ namespace GradeCalculator {
         }
 
         /// <summary>
-        /// Calculate and display all of the averages, percentages etc based on the results
-        /// </summary>
-        private void CalculateValues() {
-            //Add the display of grade averages etc
-            Completed.Visibility = Visibility.Visible;
-            var completed = _currentCourse.Grades.Sum(grade => grade.Result);
-            Completed.Content = "Current Percentage:\t\t" + completed + "%";
-
-            CompletedPercentage.Visibility = Visibility.Visible;
-            var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
-            CompletedPercentage.Content = "Percentage Completed:\t\t" + completedPercentage + "%";
-
-            AverageGrade.Visibility = Visibility.Visible;
-            var average = _currentCourse.Grades.Sum(grade => grade.Mark);
-            average /= _currentCourse.Grades.Count;
-            AverageGrade.Content = "Average Mark:\t\t\t" + average;
-
-            GradeGrid.Items.Refresh();
-            //Invalid during edit or add
-        }
-
-        /// <summary>
         /// Add a new grade to the current course
         /// </summary>
-        /// <param name="sender">The origin of this event</param>
+        /// <param name="sender">The origin of this event (unused)</param>
         /// <param name="args">The arguments supplied with the event</param>
         private void AddNewGrade(object sender, RoutedEventArgs args) {
             _currentCourse.Grades.Add(new Grade("", 0, 0));
             GradeGrid.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Validate the text input of the DataGrid to only allow numbers and .'s
+        /// </summary>
+        /// <param name="sender">The origin of this event (unused)</param>
+        /// <param name="args">The arguments supplied with the event - text input</param>
+        private void GridTextValidation(object sender, TextCompositionEventArgs args) {
+            if (args.OriginalSource is DataGridCell) return;
+            if (((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Name"))
+                return;
+            args.Handled = new Regex("[^0-9.]+").IsMatch(args.Text);
         }
     }
 }
