@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -54,18 +55,35 @@ namespace GradeCalculator {
             GradeGrid.ItemsSource = course.Value.Grades;
             GradeGrid.Visibility = Visibility.Visible;
 
-            
+
             //Add all the columns and make them all have a black background
             foreach (var dataGridColumn in GradeGrid.Columns) {
                 dataGridColumn.Visibility = Visibility.Visible;
             }
 
             //Set the binding for all columns
-            ((DataGridTextColumn) GradeGrid.Columns[0]).Binding = new Binding("Name");
-            ((DataGridTextColumn) GradeGrid.Columns[1]).Binding = new Binding("Mark");
-            ((DataGridTextColumn) GradeGrid.Columns[2]).Binding = new Binding("Weight");
-            ((DataGridTextColumn) GradeGrid.Columns[3]).Binding = new Binding("Result");
-            
+            ((DataGridTextColumn) GradeGrid.Columns[0]).Binding = new Binding {
+                Path = new PropertyPath("Name"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
+            };
+            ((DataGridTextColumn) GradeGrid.Columns[1]).Binding = new Binding {
+                Path = new PropertyPath("Mark"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
+            };
+            ((DataGridTextColumn) GradeGrid.Columns[2]).Binding = new Binding {
+                Path = new PropertyPath("Weight"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
+            };
+            ((DataGridTextColumn) GradeGrid.Columns[3]).Binding = new Binding {
+                Path = new PropertyPath("Result"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
+            };
+
+            AddGrade.Visibility = Visibility.Visible;
             //Calculate and display the remaining values at the bottom
             CalculateValues();
         }
@@ -76,10 +94,12 @@ namespace GradeCalculator {
         /// </summary>
         /// <param name="sender">The origin of this event</param>
         /// <param name="args">The arguments supplied with the event</param>
-        private void CellEdited(object sender, DataGridCellEditEndingEventArgs args) {
+        private void CellEdited(object sender, EventArgs args) {
             foreach (var grade in _currentCourse.Grades) {
                 grade.UpdateResult();
+                GradeGrid.UpdateLayout();
             }
+
             CalculateValues();
         }
 
@@ -91,17 +111,25 @@ namespace GradeCalculator {
             Completed.Visibility = Visibility.Visible;
             var completed = _currentCourse.Grades.Sum(grade => grade.Result);
             Completed.Content = "Current Percentage:\t\t" + completed + "%";
-            
+
             CompletedPercentage.Visibility = Visibility.Visible;
             var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
             CompletedPercentage.Content = "Percentage Completed:\t\t" + completedPercentage + "%";
-            
-            
+
             AverageGrade.Visibility = Visibility.Visible;
             var average = _currentCourse.Grades.Sum(grade => grade.Mark);
             average /= _currentCourse.Grades.Count;
             AverageGrade.Content = "Average Mark:\t\t\t" + average;
-            
+        }
+
+        /// <summary>
+        /// Add a new grade to the current course
+        /// </summary>
+        /// <param name="sender">The origin of this event</param>
+        /// <param name="args">The arguments supplied with the event</param>
+        private void AddNewGrade(object sender, RoutedEventArgs args) {
+            _currentCourse.Grades.Add(new Grade("", 0, 0));
+            GradeGrid.Items.Refresh();
         }
     }
 }
