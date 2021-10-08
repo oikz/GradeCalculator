@@ -18,6 +18,7 @@ namespace GradeCalculator {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        private List<Course> courses;
         public MainWindow() {
             InitializeComponent();
 
@@ -26,10 +27,31 @@ namespace GradeCalculator {
 
             //Placeholder
             var course1 = new Course("Software Design", "SWEN225");
+            course1.Grades.Add(new Grade("Assignment 1", 100));
             var course2 = new Course("Clouds and Networking", "NWEN243");
-            var courses = new List<Course> {course1, course2};
+            courses = new List<Course> {course1, course2};
 
             Courses.ItemsSource = courses;
+            Courses.SelectionChanged += ViewCourse;
+        }
+        private void ViewCourse(object sender, SelectionChangedEventArgs args) {
+            //Show the course information
+            MenuTitle.Visibility = Visibility.Hidden;
+            var items = new ListBox {
+                ItemsSource = courses[0].Grades, 
+                DisplayMemberPath = "Name",
+                Background = Brushes.Black,
+                Foreground = Brushes.White,
+                BorderBrush = null,
+                FontSize = 25,
+                Width = 450,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            
+            
+            Grid.Children.Add(items);
+            Grid.SetColumn(items, 1);
+
         }
     }
 }

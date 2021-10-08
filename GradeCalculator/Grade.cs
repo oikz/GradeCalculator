@@ -1,6 +1,11 @@
 ﻿namespace GradeCalculator {
     public class Grade {
-        private string Name { get; set; }
-        private string Result { get; set; }
+        public string Name { get; set; }
+        public double Result { get; set; }
+
+        public Grade(string name, double result) {
+            Name = name;
+            Result = result;
+        }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace GradeCalculator {
     public class Course {
-        private string Name { get; set; }
-        public string CourseCode { get; set; }
-        private List<Grade> Grades { get; set; }
+        public string Name { get; private set; }
+        public string CourseCode { get; private set; }
+        public List<Grade> Grades { get; private set; }
 
         public Course(string name, string courseCode) {
             Name = name;
