@@ -7,14 +7,25 @@
         mc:Ignorable="d"
         Title="Grade Calculator" Height="700" Width="600"
         ResizeMode="NoResize, CanMinimize">
+    
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridCell}" x:Key="BlackCell">
+            <Setter Property="Background" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="BlackHeader">
+            <Setter Property="Background" Value="Black"></Setter>
+        </Style>
+    </Window.Resources>
+    
     <Grid Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="List" Width="Auto" />
             <ColumnDefinition Name="Display" Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+
         <!--Background-->
-        <Rectangle Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" VerticalAlignment="Center" Fill="Black" />
+        <Rectangle Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" VerticalAlignment="Center"
+                   Fill="Black" />
         <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="450" VerticalAlignment="Center"
                    Fill="Black" />
         <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="1" Stroke="White" Fill="White"
@@ -24,6 +35,8 @@
         <Label Name="MenuTitle" Grid.Column="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top"
                Content="Main Menu?" Foreground="White" FontSize="40" />
         <ListBox Grid.Column="0" Name="Courses" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
-                 Foreground="White" DisplayMemberPath="CourseCode" FontSize="30" BorderBrush="{x:Null}" />
+                 Foreground="White" DisplayMemberPath="CourseCode" FontSize="30" BorderBrush="{x:Null}"
+                 Focusable="False">
+        </ListBox>
     </Grid>
 </Window>
