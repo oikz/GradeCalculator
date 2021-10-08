@@ -6,18 +6,24 @@
         xmlns:local="clr-namespace:GradeCalculator"
         mc:Ignorable="d"
         Title="Grade Calculator" Height="700" Width="600"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize, CanMinimize">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Name="List" Width="Auto" />
+            <ColumnDefinition Name="Display" Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
         <!--Background-->
-        <Rectangle HorizontalAlignment="Left" Height="684" Width="150" VerticalAlignment="Center" Fill="Black" />
-        <Rectangle HorizontalAlignment="Left" Height="684" Width="450" Margin="150,0,0,0" VerticalAlignment="Center" Fill="Black" />
-        <Rectangle HorizontalAlignment="Left" Height="684" Width="1" Margin="150,0,0,0" Stroke="White" Fill="White"
+        <Rectangle Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" VerticalAlignment="Center" Fill="Black" />
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="450" VerticalAlignment="Center"
+                   Fill="Black" />
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="1" Stroke="White" Fill="White"
                    VerticalAlignment="Top" />
 
         <!--Menu and Side List box-->
-        <Label HorizontalAlignment="Left" Height="100" Margin="175, 10, 0, 0" VerticalAlignment="Top"
+        <Label Grid.Column="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top"
                Content="Main Menu? " Foreground="White" FontSize="40" />
-        <ListBox Name="Courses" HorizontalAlignment="Left" Height="684" Width="150" Background="Black" Foreground="White" DisplayMemberPath="CourseCode" FontSize="30"/>
+        <ListBox Grid.Column="0" Name="Courses" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
+                 Foreground="White" DisplayMemberPath="CourseCode" FontSize="30" BorderBrush="{x:Null}" />
     </Grid>
 </Window>
