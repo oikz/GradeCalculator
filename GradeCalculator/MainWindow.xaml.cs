@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GradeCalculator {
@@ -97,10 +98,24 @@ namespace GradeCalculator {
         private void CellEdited(object sender, EventArgs args) {
             foreach (var grade in _currentCourse.Grades) {
                 grade.UpdateResult();
-                GradeGrid.UpdateLayout();
             }
 
+            GradeGrid.CommitEdit();
+            GradeGrid.CommitEdit();
             CalculateValues();
+        }
+
+        /// <summary>
+        /// Method called when a key is pressed in the grid
+        /// Used to refresh when the user presses enter
+        /// </summary>
+        /// <param name="sender">The origin of this event</param>
+        /// <param name="args">The arguments supplied with the event</param>
+        private void CellKeyDown(object sender, KeyEventArgs args) {
+            if (args.Key != Key.Enter || !(args.OriginalSource is UIElement cell)) return;
+            args.Handled = true;
+            cell.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            CellEdited(sender, args);
         }
 
         /// <summary>
@@ -120,6 +135,9 @@ namespace GradeCalculator {
             var average = _currentCourse.Grades.Sum(grade => grade.Mark);
             average /= _currentCourse.Grades.Count;
             AverageGrade.Content = "Average Mark:\t\t\t" + average;
+
+            GradeGrid.Items.Refresh();
+            //Invalid during edit or add
         }
 
         /// <summary>

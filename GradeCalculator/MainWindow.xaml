@@ -45,7 +45,8 @@
                   BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden" CurrentCellChanged="CellEdited">
+                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden"
+                  CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
                                     CellStyle="{StaticResource BlackCell}"
@@ -73,6 +74,6 @@
 
         <Button Name="AddGrade" Grid.Column="1" Content="Add Grade" HorizontalAlignment="Left"
                 VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
-                Visibility="Hidden" Click="AddNewGrade"/>
+                Visibility="Hidden" Click="AddNewGrade" />
     </Grid>
 </Window>
