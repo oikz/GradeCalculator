@@ -80,20 +80,10 @@ namespace GradeCalculator {
 
             _currentCourse = course.Value;
 
-            //Hide the menu title
-            MenuTitle.Visibility = Visibility.Hidden;
-
-
             //Create the grid of cells for displaying grades
             GradeGrid.ItemsSource = course.Value.Grades;
-            GradeGrid.Visibility = Visibility.Visible;
-
-
+            
             //Add all the columns and make them all have a black background
-            foreach (var dataGridColumn in GradeGrid.Columns) {
-                dataGridColumn.Visibility = Visibility.Visible;
-            }
-
             //Set the binding for all columns
             ((DataGridTextColumn) GradeGrid.Columns[0]).Binding = new Binding {
                 Path = new PropertyPath("Name"),
@@ -116,7 +106,6 @@ namespace GradeCalculator {
                 UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
             };
 
-            AddGrade.Visibility = Visibility.Visible;
             //Calculate and display the remaining values at the bottom
             CalculateValues();
         }
@@ -127,15 +116,12 @@ namespace GradeCalculator {
         /// </summary>
         private void CalculateValues() {
             //Add the display of grade averages etc
-            Completed.Visibility = Visibility.Visible;
             var completed = _currentCourse.Grades.Sum(grade => grade.Result);
             Completed.Content = "Current Percentage:\t\t" + Math.Round(completed, 2) + "%";
 
-            CompletedPercentage.Visibility = Visibility.Visible;
             var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
             CompletedPercentage.Content = "Percentage Completed:\t\t" + Math.Round(completedPercentage, 2) + "%";
 
-            AverageGrade.Visibility = Visibility.Visible;
             var average = _currentCourse.Grades.Sum(grade => grade.Mark);
             average /= _currentCourse.Grades.Count;
             AverageGrade.Content = "Average Mark:\t\t\t" + Math.Round(average, 2);

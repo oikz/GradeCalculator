@@ -34,8 +34,6 @@
                    VerticalAlignment="Top" />
 
         <!--Menu and Side List box-->
-        <Label Name="MenuTitle" Grid.Column="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top"
-               Content="Main Menu?" Foreground="White" FontSize="40" />
         <ListBox Name="Courses" Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
                  Foreground="White" DisplayMemberPath="Value.CourseCode" FontSize="30" BorderBrush="{x:Null}"
                  Focusable="False" SelectionChanged="ViewCourse" />
@@ -45,36 +43,36 @@
                   BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False" Visibility="Hidden"
+                  CanUserSortColumns="False" CanUserResizeRows="False" 
                   CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown" PreviewTextInput="GridTextValidation">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Visibility="Hidden" Width="200"
+                <DataGridTextColumn Header="Name" Width="200"
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
-                <DataGridTextColumn Header="Mark" Visibility="Hidden" Width="75"
+                <DataGridTextColumn Header="Mark" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
-                <DataGridTextColumn Header="Weight" Visibility="Hidden" Width="75"
+                <DataGridTextColumn Header="Weight" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
-                <DataGridTextColumn Header="Result" Visibility="Hidden" Width="75"
+                <DataGridTextColumn Header="Result" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
                                     HeaderStyle="{StaticResource BlackHeader}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 80" Foreground="White" Visibility="Hidden" />
+               Padding="10 0 0 80" Foreground="White"/>
 
         <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 60" Foreground="White" Visibility="Hidden" />
+               Padding="10 0 0 60" Foreground="White"/>
 
         <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 40" Foreground="White" Visibility="Hidden" />
+               Padding="10 0 0 40" Foreground="White" />
 
         <Button Name="AddGrade" Grid.Column="1" Content="Add Grade" HorizontalAlignment="Left"
                 VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
-                Visibility="Hidden" Click="AddNewGrade" />
+                Click="AddNewGrade" />
 
         <Button Name="NewCourse" Grid.Column="0" Content="Add Course" HorizontalAlignment="Left"
                 VerticalAlignment="Bottom" Width="160" Height="50" Margin="0 0 0 50" Foreground="Black"
