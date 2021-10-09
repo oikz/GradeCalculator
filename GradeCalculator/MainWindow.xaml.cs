@@ -16,13 +16,13 @@ namespace GradeCalculator {
     /// Main window of the program, containing all logic
     /// </summary>
     public partial class MainWindow : Window {
-        private Dictionary<string, Course> _courses = new Dictionary<string, Course>();
+        private readonly Dictionary<string, Course> _courses = new Dictionary<string, Course>();
         private Course _currentCourse;
 
         public MainWindow() {
             InitializeComponent();
             LoadCourses();
-            
+            if (_currentCourse != null) CalculateValues();
             Courses.ItemsSource = _courses;
         }
 
@@ -46,11 +46,16 @@ namespace GradeCalculator {
             foreach (var course in courses.Elements()) {
                 var newCourse = new Course(course.Attribute("courseCode")?.Value);
                 foreach (var grade in course.Elements()) {
-                    newCourse.Grades.Add(new Grade(grade.Attribute("name")?.Value, Convert.ToDouble(grade.Attribute("mark")?.Value),
+                    newCourse.Grades.Add(new Grade(grade.Attribute("name")?.Value,
+                        Convert.ToDouble(grade.Attribute("mark")?.Value),
                         Convert.ToDouble(grade.Attribute("weight")?.Value)));
                 }
+
                 _courses.Add(newCourse.CourseCode, newCourse);
+                _currentCourse ??= newCourse;
+                if (_currentCourse != null) GradeGrid.ItemsSource = newCourse.Grades;
             }
+
             stream.Close();
         }
 
@@ -93,7 +98,6 @@ namespace GradeCalculator {
                 GradeGrid.Items.Refresh();
             } catch (InvalidOperationException) {
             }
-            //Invalid during edit or add
         }
 
 
@@ -131,6 +135,7 @@ namespace GradeCalculator {
         /// <param name="sender">The origin of this event (unused)</param>
         /// <param name="args">The arguments supplied with the event</param>
         private void AddNewGrade(object sender, RoutedEventArgs args) {
+            if (_currentCourse == null) return;
             _currentCourse.Grades.Add(new Grade("", 0, 0));
             GradeGrid.Items.Refresh();
         }
@@ -157,7 +162,7 @@ namespace GradeCalculator {
             var writer = XmlWriter.Create("Courses.xml");
             writer.WriteElementString("Courses", null);
             writer.Close();
-            
+
             //Load in the file
             var stream = File.Open("Courses.xml", FileMode.Open);
             var document = XDocument.Load(stream, LoadOptions.None);
@@ -174,9 +179,10 @@ namespace GradeCalculator {
                     gradeElement.SetAttributeValue("weight", grade.Weight);
                     element.Add(gradeElement);
                 }
+
                 courses?.Add(element);
             }
-            
+
             stream.Close();
             document.Save("Courses.xml");
         }
