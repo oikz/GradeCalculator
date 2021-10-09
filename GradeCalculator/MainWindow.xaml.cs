@@ -231,5 +231,21 @@ namespace GradeCalculator {
             stream.Close();
             document.Save("Courses.xml");
         }
+
+        /// <summary>
+        /// Add a new course to the program
+        /// </summary>
+        /// <param name="sender">The origin of this event (unused)</param>
+        /// <param name="args">The arguments supplied with the event - text input (unused)</param>
+        private void AddCourse(object sender, RoutedEventArgs args) {
+            if (CourseName.Text.Equals(string.Empty)) return;
+            try {
+                _courses.Add(CourseName.Text, new Course(CourseName.Text));
+            } catch (ArgumentException) {
+                //Don't let the user add the same named course twice
+            }
+
+            Courses.Items.Refresh();
+        }
     }
 }
