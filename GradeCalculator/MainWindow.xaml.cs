@@ -21,21 +21,8 @@ namespace GradeCalculator {
 
         public MainWindow() {
             InitializeComponent();
-
-            //TODO Load the files from XML/JSON or something?
             LoadCourses();
-
-            //Placeholder
-            //var course1 = new Course("Software Design", "SWEN225");
-            //course1.Grades.Add(new Grade("Assignment 1", 100, 15));
-            //course1.Grades.Add(new Grade("Assignment 2", 100, 15));
-            //course1.Grades.Add(new Grade("Group Project", 100, 40));
-            //var course2 = new Course("Clouds and Networking", "NWEN243");
-            //course2.Grades.Add(new Grade("Project 1", 100, 15));
-            //course2.Grades.Add(new Grade("Project 2", 100, 15));
-            //course2.Grades.Add(new Grade("Project 3", 100, 15));
-            //_courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
-
+            
             Courses.ItemsSource = _courses;
         }
 
