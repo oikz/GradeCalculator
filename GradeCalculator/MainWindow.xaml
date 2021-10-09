@@ -43,29 +43,35 @@
                   BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
                   HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                   CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False" 
+                  CanUserSortColumns="False" CanUserResizeRows="False"
                   CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown" PreviewTextInput="GridTextValidation">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Width="200"
                                     CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}" />
+                                    HeaderStyle="{StaticResource BlackHeader}"
+                                    Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                 <DataGridTextColumn Header="Mark" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}" />
+                                    HeaderStyle="{StaticResource BlackHeader}"
+                                    Binding="{Binding Path=Mark, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                 <DataGridTextColumn Header="Weight" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}" />
+                                    HeaderStyle="{StaticResource BlackHeader}"
+                                    Binding="{Binding Path=Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
                 <DataGridTextColumn Header="Result" Width="75"
                                     CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}" />
+                                    HeaderStyle="{StaticResource BlackHeader}"
+                                    Binding="{Binding Path=Result, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
             </DataGrid.Columns>
         </DataGrid>
 
         <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 80" Foreground="White"/>
+               Padding="10 0 0 80" Foreground="White" />
 
         <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 60" Foreground="White"/>
+               Padding="10 0 0 60" Foreground="White" />
 
         <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                Padding="10 0 0 40" Foreground="White" />
@@ -79,7 +85,7 @@
                 Click="AddCourse" />
 
         <TextBox Name="CourseName" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="160"
-                 Height="50" Margin="0 0 0 100" Foreground="Black" FontSize="32"/>
+                 Height="50" Margin="0 0 0 100" Foreground="Black" FontSize="35" CaretBrush="White" MaxLength="8" />
 
         <Button Name="Save" Grid.Column="0" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                 Width="160" Height="50" Foreground="Black" Click="SaveCourses" />
