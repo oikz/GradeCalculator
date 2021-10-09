@@ -64,6 +64,7 @@ namespace GradeCalculator {
                 }
                 _courses.Add(newCourse.Name, newCourse);
             }
+            stream.Close();
         }
 
         /// <summary>
@@ -195,6 +196,41 @@ namespace GradeCalculator {
             if (((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Name"))
                 return;
             args.Handled = new Regex("[^0-9.]+").IsMatch(args.Text);
+        }
+
+        /// <summary>
+        /// Save the courses currently loaded into the program to the default XML file
+        /// </summary>
+        /// <param name="sender">The origin of this event (unused)</param>
+        /// <param name="args">The arguments supplied with the event - text input (unused)</param>
+        private void SaveCourses(object sender, RoutedEventArgs args) {
+            //Reset the file to only contain the root node - <Courses/>
+            var writer = XmlWriter.Create("Courses.xml");
+            writer.WriteElementString("Courses", null);
+            writer.Close();
+            
+            //Load in the file
+            var stream = File.Open("Courses.xml", FileMode.Open);
+            var document = XDocument.Load(stream, LoadOptions.None);
+            var courses = document.Element("Courses");
+
+            //Save each course and all the grades within it
+            foreach (var (_, value) in _courses) {
+                var element = new XElement("course");
+                element.SetAttributeValue("name", value.Name);
+                element.SetAttributeValue("courseCode", value.CourseCode);
+                foreach (var grade in value.Grades) {
+                    var gradeElement = new XElement("grade");
+                    gradeElement.SetAttributeValue("name", grade.Name);
+                    gradeElement.SetAttributeValue("mark", grade.Mark);
+                    gradeElement.SetAttributeValue("weight", grade.Weight);
+                    element.Add(gradeElement);
+                }
+                courses?.Add(element);
+            }
+            
+            stream.Close();
+            document.Save("Courses.xml");
         }
     }
 }
