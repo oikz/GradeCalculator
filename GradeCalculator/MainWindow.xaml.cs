@@ -1,38 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace GradeCalculator {
     /// <summary>
     /// Main window of the program, containing all logic
     /// </summary>
     public partial class MainWindow : Window {
-        private Dictionary<string, Course> _courses;
+        private Dictionary<string, Course> _courses = new Dictionary<string, Course>();
         private Course _currentCourse;
 
         public MainWindow() {
             InitializeComponent();
 
             //TODO Load the files from XML/JSON or something?
-
+            LoadCourses();
 
             //Placeholder
-            var course1 = new Course("Software Design", "SWEN225");
-            course1.Grades.Add(new Grade("Assignment 1", 100, 15));
-            course1.Grades.Add(new Grade("Assignment 2", 100, 15));
-            course1.Grades.Add(new Grade("Group Project", 100, 40));
-            var course2 = new Course("Clouds and Networking", "NWEN243");
-            course2.Grades.Add(new Grade("Project 1", 100, 15));
-            course2.Grades.Add(new Grade("Project 2", 100, 15));
-            course2.Grades.Add(new Grade("Project 3", 100, 15));
-            _courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
+            //var course1 = new Course("Software Design", "SWEN225");
+            //course1.Grades.Add(new Grade("Assignment 1", 100, 15));
+            //course1.Grades.Add(new Grade("Assignment 2", 100, 15));
+            //course1.Grades.Add(new Grade("Group Project", 100, 40));
+            //var course2 = new Course("Clouds and Networking", "NWEN243");
+            //course2.Grades.Add(new Grade("Project 1", 100, 15));
+            //course2.Grades.Add(new Grade("Project 2", 100, 15));
+            //course2.Grades.Add(new Grade("Project 3", 100, 15));
+            //_courses = new Dictionary<string, Course> {{"SWEN225", course1}, {"NWEN243", course2}};
 
             Courses.ItemsSource = _courses;
+        }
+
+        /// <summary>
+        /// Load the available courses from a default file
+        /// </summary>
+        private void LoadCourses() {
+            //No file exists already, create default empty file
+            if (!File.Exists("Courses.xml")) {
+                var writer = XmlWriter.Create("Courses.xml");
+                writer.WriteElementString("Courses", null);
+                writer.Close();
+                return;
+            }
+
+            //Load all courses from the file
+            var stream = File.Open("Courses.xml", FileMode.Open);
+            var document = XDocument.Load(stream, LoadOptions.None);
+            var courses = document.Element("Courses");
+            if (courses == null) return;
+            foreach (var course in courses.Elements()) {
+                var newCourse = new Course(course.Attribute("name")?.Value, course.Attribute("courseCode")?.Value);
+                foreach (var grade in course.Elements()) {
+                    newCourse.Grades.Add(new Grade(grade.Attribute("name")?.Value, Convert.ToDouble(grade.Attribute("mark")?.Value),
+                        Convert.ToDouble(grade.Attribute("weight")?.Value)));
+                }
+                _courses.Add(newCourse.Name, newCourse);
+            }
         }
 
         /// <summary>
