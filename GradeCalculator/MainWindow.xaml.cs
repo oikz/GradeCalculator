@@ -109,8 +109,7 @@ namespace GradeCalculator {
             var completedPercentage = _currentCourse.Grades.Sum(grade => grade.GetCompleted());
             CompletedPercentage.Content = "Percentage Completed:\t\t" + Math.Round(completedPercentage, 2) + "%";
 
-            var average = _currentCourse.Grades.Sum(grade => grade.Mark);
-            average /= _currentCourse.Grades.Count;
+            var average = completed / completedPercentage * 100;
             AverageGrade.Content = "Average Mark:\t\t\t" + Math.Round(average, 2);
 
             try {
