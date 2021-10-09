@@ -57,12 +57,12 @@ namespace GradeCalculator {
             var courses = document.Element("Courses");
             if (courses == null) return;
             foreach (var course in courses.Elements()) {
-                var newCourse = new Course(course.Attribute("name")?.Value, course.Attribute("courseCode")?.Value);
+                var newCourse = new Course(course.Attribute("courseCode")?.Value);
                 foreach (var grade in course.Elements()) {
                     newCourse.Grades.Add(new Grade(grade.Attribute("name")?.Value, Convert.ToDouble(grade.Attribute("mark")?.Value),
                         Convert.ToDouble(grade.Attribute("weight")?.Value)));
                 }
-                _courses.Add(newCourse.Name, newCourse);
+                _courses.Add(newCourse.CourseCode, newCourse);
             }
             stream.Close();
         }
@@ -217,7 +217,6 @@ namespace GradeCalculator {
             //Save each course and all the grades within it
             foreach (var (_, value) in _courses) {
                 var element = new XElement("course");
-                element.SetAttributeValue("name", value.Name);
                 element.SetAttributeValue("courseCode", value.CourseCode);
                 foreach (var grade in value.Grades) {
                     var gradeElement = new XElement("grade");
