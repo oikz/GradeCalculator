@@ -197,6 +197,15 @@ namespace GradeCalculator {
                 courses?.Add(element);
             }
 
+            var grades = new XElement("grades");
+            foreach (var (item1, item2) in _gradeBoundaries) {
+                var element = new XElement("boundary");
+                element.SetAttributeValue("grade", item1);
+                element.SetAttributeValue("lowerBound", item2);
+                grades.Add(element);
+            }
+            courses?.Add(grades);
+
             stream.Close();
             document.Save("Courses.xml");
         }
