@@ -76,7 +76,6 @@
                                         CellStyle="{StaticResource BlackCell}"
                                         HeaderStyle="{StaticResource BlackHeader}"
                                         Binding="{Binding Path=Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-
                     <DataGridTextColumn Header="Result" Width="75"
                                         CellStyle="{StaticResource BlackCell}"
                                         HeaderStyle="{StaticResource BlackHeader}"
@@ -98,6 +97,25 @@
                     VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
                     Click="AddNewGrade" />
         </Grid>
-        <Grid Name="GradeSetting" Grid.Column="1" Visibility="Collapsed" />
+        <Grid Name="GradeSetting" Grid.Column="1" Visibility="Collapsed">
+            <DataGrid Name="GradeBoundaryGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
+                      BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
+                      HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
+                      CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
+                      CanUserSortColumns="False" CanUserResizeRows="False" Margin="135 0 0 0"
+                      CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown"
+                      PreviewTextInput="GridTextValidation">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Grade" Width="60"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=Grade, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <DataGridTextColumn Header="Minimum" Width="90"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=LowerBound, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>

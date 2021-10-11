@@ -16,7 +16,7 @@ namespace GradeCalculator {
     public partial class MainWindow : Window {
         private readonly Dictionary<string, Course> _courses = new Dictionary<string, Course>();
         private Course _currentCourse;
-        private readonly List<(string, int)> _gradeBoundaries = new List<(string, int)>();
+        private readonly List<GradeBoundary> _gradeBoundaries = new List<GradeBoundary>();
 
         public MainWindow() {
             InitializeComponent();
@@ -59,13 +59,16 @@ namespace GradeCalculator {
             stream.Close();
         }
 
+        /// <summary>
+        /// Load the grade boundaries from the XML file and store them locally
+        /// </summary>
         private void LoadGrades() {
             var stream = File.Open("Courses.xml", FileMode.Open);
             var document = XDocument.Load(stream, LoadOptions.None);
             var root = document.Element("Courses");
             if (root == null) return;
             foreach (var boundary in root.Element("grades")?.Elements()) {
-                _gradeBoundaries.Add((boundary.Attribute("grade")?.Value,
+                _gradeBoundaries.Add(new GradeBoundary(boundary.Attribute("grade")?.Value,
                     Convert.ToInt32(boundary.Attribute("lowerBound")?.Value)));
             }
         }
@@ -161,7 +164,8 @@ namespace GradeCalculator {
         /// <param name="args">The arguments supplied with the event - text input</param>
         private void GridTextValidation(object sender, TextCompositionEventArgs args) {
             if (args.OriginalSource is DataGridCell) return;
-            if (((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Name"))
+            if (((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Name") ||
+                ((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Grade"))
                 return;
             args.Handled = new Regex("[^0-9.]+").IsMatch(args.Text);
         }
@@ -197,13 +201,15 @@ namespace GradeCalculator {
                 courses?.Add(element);
             }
 
+            //Save the grade boundaries to XML file
             var grades = new XElement("grades");
-            foreach (var (item1, item2) in _gradeBoundaries) {
+            foreach (var boundary in _gradeBoundaries) {
                 var element = new XElement("boundary");
-                element.SetAttributeValue("grade", item1);
-                element.SetAttributeValue("lowerBound", item2);
+                element.SetAttributeValue("grade", boundary.Grade);
+                element.SetAttributeValue("lowerBound", boundary.LowerBound);
                 grades.Add(element);
             }
+
             courses?.Add(grades);
 
             stream.Close();
@@ -229,6 +235,8 @@ namespace GradeCalculator {
         private void EditGradeBoundaries(object sender, RoutedEventArgs e) {
             GradeSetting.Visibility = Visibility.Visible;
             GradeDisplay.Visibility = Visibility.Collapsed;
+
+            GradeBoundaryGrid.ItemsSource = _gradeBoundaries;
         }
     }
 }
