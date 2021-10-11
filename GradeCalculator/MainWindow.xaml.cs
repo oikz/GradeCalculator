@@ -130,9 +130,22 @@ namespace GradeCalculator {
                     averageLetterGrade = _gradeBoundaries[i].Grade;
                 }
             }
+            
+            LetterGrade.Content = "Average Letter Grade:\t\t" + averageLetterGrade;
 
-            LetterGrade.Content = "Average Letter Grade\t\t" + averageLetterGrade;
+            var desiredGrade = _gradeBoundaries.Where(boundary => boundary.Grade.Equals(DesiredLetterGradeText.Text));
 
+            var gradeBoundaries = desiredGrade as GradeBoundary[] ?? desiredGrade.ToArray();
+            var desired = 0;
+            if (gradeBoundaries.Any()) {
+                desired = gradeBoundaries.ElementAt(0).LowerBound;
+            }
+
+            var required = (desired - completed) / (100 - completedPercentage);
+            PercentageRequired.Content = "Percentage Required:\t\t" + Math.Round(required * 100, 2);
+
+
+            
             try {
                 GradeGrid.Items.Refresh();
             } catch (InvalidOperationException) {
@@ -259,7 +272,7 @@ namespace GradeCalculator {
         /// </summary>
         /// <param name="sender">The origin of this event (unused)</param>
         /// <param name="args">The arguments supplied with the event - text input (unused)</param>z
-        private void EditGradeBoundaries(object sender, RoutedEventArgs e) {
+        private void EditGradeBoundaries(object sender, RoutedEventArgs args) {
             GradeSetting.Visibility = Visibility.Visible;
             GradeDisplay.Visibility = Visibility.Collapsed;
 

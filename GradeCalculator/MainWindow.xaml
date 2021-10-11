@@ -92,9 +92,20 @@
 
             <Label Name="AverageGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                    Padding="10 0 0 60" Foreground="White" />
-            
+
             <Label Name="LetterGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                    Padding="10 0 0 40" Foreground="White" />
+
+            <Label Name="DesiredLetterGrade" Content="Desired Grade:" HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Padding="10 0 0 20" Foreground="White" />
+
+            <TextBox Name="DesiredLetterGradeText" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                     Margin="200 0 0 20" Foreground="White" Background="Black" Width="20" Height="20" MaxLength="2"
+                     TextChanged="CellEdited" />
+
+            <Label Name="PercentageRequired" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Padding="10 0 0 0" Foreground="White" />
 
             <Button Name="AddGrade" Content="Add Grade" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
