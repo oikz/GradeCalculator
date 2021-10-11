@@ -35,6 +35,18 @@ namespace GradeCalculator {
                 var writer = XmlWriter.Create("Courses.xml");
                 writer.WriteElementString("Courses", null);
                 writer.Close();
+
+                //Add default grade boundaries
+                var load = File.Open("Courses.xml", FileMode.Open);
+                var doc = XDocument.Load(load, LoadOptions.None);
+                var root = doc.Element("Courses");
+                var grades = new XElement("grades");
+                DefaultGrades(grades);
+                root.Add(grades);
+
+
+                load.Close();
+                doc.Save("Courses.xml");
                 return;
             }
 
@@ -113,7 +125,7 @@ namespace GradeCalculator {
 
             if (_gradeBoundaries.Count == 0) return;
             var averageLetterGrade = _gradeBoundaries.ElementAt(0).Grade;
-            for (var i = _gradeBoundaries.Count - 1 ; i >= 0; i--) {
+            for (var i = _gradeBoundaries.Count - 1; i >= 0; i--) {
                 if (average >= _gradeBoundaries[i].LowerBound) {
                     averageLetterGrade = _gradeBoundaries[i].Grade;
                 }
@@ -242,11 +254,32 @@ namespace GradeCalculator {
             Courses.Items.Refresh();
         }
 
+        /// <summary>
+        /// Event called when the user clicks to edit grade boundaries
+        /// </summary>
+        /// <param name="sender">The origin of this event (unused)</param>
+        /// <param name="args">The arguments supplied with the event - text input (unused)</param>z
         private void EditGradeBoundaries(object sender, RoutedEventArgs e) {
             GradeSetting.Visibility = Visibility.Visible;
             GradeDisplay.Visibility = Visibility.Collapsed;
 
             GradeBoundaryGrid.ItemsSource = _gradeBoundaries;
+        }
+
+
+        /// <summary>
+        /// Load in a default set of grades to be modified if an XML is not present
+        /// </summary>
+        /// <param name="grades">The Grades element of the XML file being created</param>
+        private void DefaultGrades(XElement grades) {
+            string[] letters = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E"};
+            int[] lowerBounds = {90, 85, 80, 75, 70, 65, 60, 55, 50, 40, 0};
+            for (var i = 0; i < letters.Length; i++) {
+                var elem = new XElement("boundary");
+                elem.SetAttributeValue("grade", letters[i]);
+                elem.SetAttributeValue("lowerBound", lowerBounds[i]);
+                grades.Add(elem);
+            }
         }
     }
 }
