@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
@@ -77,6 +75,9 @@ namespace GradeCalculator {
 
             //Calculate and display the remaining values at the bottom
             CalculateValues();
+
+            GradeSetting.Visibility = Visibility.Collapsed;
+            GradeDisplay.Visibility = Visibility.Visible;
         }
 
 
@@ -201,6 +202,11 @@ namespace GradeCalculator {
             }
 
             Courses.Items.Refresh();
+        }
+
+        private void EditGradeBoundaries(object sender, RoutedEventArgs e) {
+            GradeSetting.Visibility = Visibility.Visible;
+            GradeDisplay.Visibility = Visibility.Collapsed;
         }
     }
 }

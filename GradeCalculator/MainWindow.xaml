@@ -18,76 +18,86 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
     </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="Black" />
+    </Window.Background>
 
-    <Grid Name="Grid">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <!--Background-->
-        <Rectangle Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" VerticalAlignment="Center"
-                   Fill="Black" />
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="450" VerticalAlignment="Center"
-                   Fill="Black" />
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="684" Width="1" Stroke="White" Fill="White"
-                   VerticalAlignment="Top" />
+        <Grid Name="AlwaysVisible" Grid.Column="0">
+            <Rectangle HorizontalAlignment="Left" Height="684" Width="1" Margin="160 0 0 0" Stroke="White" Fill="White"
+                       VerticalAlignment="Top" />
 
-        <!--Menu and Side List box-->
-        <ListBox Name="Courses" Grid.Column="0" HorizontalAlignment="Left" Height="684" Width="160" Background="Black"
-                 Foreground="White" DisplayMemberPath="Value.CourseCode" FontSize="30" BorderBrush="{x:Null}"
-                 Focusable="False" SelectionChanged="ViewCourse" />
+            <!--Menu and Side List box-->
+            <ListBox Name="Courses" HorizontalAlignment="Left" Height="684" Width="160"
+                     Background="Black"
+                     Foreground="White" DisplayMemberPath="Value.CourseCode" FontSize="30" BorderBrush="{x:Null}"
+                     Focusable="False" SelectionChanged="ViewCourse" />
 
-        <!-- Display of grades -->
-        <DataGrid Name="GradeGrid" Grid.Column="1" AutoGenerateColumns="False" HeadersVisibility="Column"
-                  BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
-                  HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
-                  CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
-                  CanUserSortColumns="False" CanUserResizeRows="False"
-                  CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown" PreviewTextInput="GridTextValidation">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Width="200"
-                                    CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}"
-                                    Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                <DataGridTextColumn Header="Mark" Width="75"
-                                    CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}"
-                                    Binding="{Binding Path=Mark, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                <DataGridTextColumn Header="Weight" Width="75"
-                                    CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}"
-                                    Binding="{Binding Path=Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+            <Button Name="NewCourse" Grid.Column="0" Content="Add Course" HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" Width="160" Height="50" Margin="0 0 0 100" Foreground="Black"
+                    Click="AddCourse" />
 
-                <DataGridTextColumn Header="Result" Width="75"
-                                    CellStyle="{StaticResource BlackCell}"
-                                    HeaderStyle="{StaticResource BlackHeader}"
-                                    Binding="{Binding Path=Result, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+            <TextBox Name="CourseName" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                     Width="160" Height="50" Margin="0 0 0 150" Foreground="Black" FontSize="35" CaretBrush="White"
+                     MaxLength="8" />
 
-            </DataGrid.Columns>
-        </DataGrid>
+            <Button Name="GradeBoundaries" Grid.Column="0" Content="Edit Grade Boundaries" HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" Width="160" Height="50" Margin="0 0 0 50" Foreground="Black"
+                    Click="EditGradeBoundaries" />
 
-        <Label Name="Completed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 80" Foreground="White" />
+            <Button Name="Save" Grid.Column="0" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Width="160" Height="50" Foreground="Black" Click="SaveCourses" />
 
-        <Label Name="CompletedPercentage" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 60" Foreground="White" />
+        </Grid>
+        <Grid Name="GradeDisplay" Grid.Column="1">
+            <!-- Display of grades -->
+            <DataGrid Name="GradeGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
+                      BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
+                      HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
+                      CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
+                      CanUserSortColumns="False" CanUserResizeRows="False"
+                      CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown"
+                      PreviewTextInput="GridTextValidation">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="200"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <DataGridTextColumn Header="Mark" Width="75"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=Mark, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <DataGridTextColumn Header="Weight" Width="75"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
 
-        <Label Name="AverageGrade" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Padding="10 0 0 40" Foreground="White" />
+                    <DataGridTextColumn Header="Result" Width="75"
+                                        CellStyle="{StaticResource BlackCell}"
+                                        HeaderStyle="{StaticResource BlackHeader}"
+                                        Binding="{Binding Path=Result, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
 
-        <Button Name="AddGrade" Grid.Column="1" Content="Add Grade" HorizontalAlignment="Left"
-                VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
-                Click="AddNewGrade" />
+                </DataGrid.Columns>
+            </DataGrid>
 
-        <Button Name="NewCourse" Grid.Column="0" Content="Add Course" HorizontalAlignment="Left"
-                VerticalAlignment="Bottom" Width="160" Height="50" Margin="0 0 0 50" Foreground="Black"
-                Click="AddCourse" />
+            <Label Name="Completed" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Padding="10 0 0 80" Foreground="White" />
 
-        <TextBox Name="CourseName" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="160"
-                 Height="50" Margin="0 0 0 100" Foreground="Black" FontSize="35" CaretBrush="White" MaxLength="8" />
+            <Label Name="CompletedPercentage" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Padding="10 0 0 60" Foreground="White" />
 
-        <Button Name="Save" Grid.Column="0" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Width="160" Height="50" Foreground="Black" Click="SaveCourses" />
+            <Label Name="AverageGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Padding="10 0 0 40" Foreground="White" />
+
+            <Button Name="AddGrade" Content="Add Grade" HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
+                    Click="AddNewGrade" />
+        </Grid>
+        <Grid Name="GradeSetting" Grid.Column="1" Visibility="Collapsed" />
     </Grid>
 </Window>
