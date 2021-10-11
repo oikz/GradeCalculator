@@ -111,6 +111,16 @@ namespace GradeCalculator {
             var average = completed / completedPercentage * 100;
             AverageGrade.Content = "Average Mark:\t\t\t" + Math.Round(average, 2);
 
+            if (_gradeBoundaries.Count == 0) return;
+            var averageLetterGrade = _gradeBoundaries.ElementAt(0).Grade;
+            for (var i = _gradeBoundaries.Count - 1 ; i >= 0; i--) {
+                if (average >= _gradeBoundaries[i].LowerBound) {
+                    averageLetterGrade = _gradeBoundaries[i].Grade;
+                }
+            }
+
+            LetterGrade.Content = "Average Letter Grade\t\t" + averageLetterGrade;
+
             try {
                 GradeGrid.Items.Refresh();
             } catch (InvalidOperationException) {

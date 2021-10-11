@@ -85,12 +85,15 @@
             </DataGrid>
 
             <Label Name="Completed" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 80" Foreground="White" />
+                   Padding="10 0 0 100" Foreground="White" />
 
             <Label Name="CompletedPercentage" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 60" Foreground="White" />
+                   Padding="10 0 0 80" Foreground="White" />
 
             <Label Name="AverageGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Padding="10 0 0 60" Foreground="White" />
+            
+            <Label Name="LetterGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                    Padding="10 0 0 40" Foreground="White" />
 
             <Button Name="AddGrade" Content="Add Grade" HorizontalAlignment="Left"
