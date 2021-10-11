@@ -16,10 +16,12 @@ namespace GradeCalculator {
     public partial class MainWindow : Window {
         private readonly Dictionary<string, Course> _courses = new Dictionary<string, Course>();
         private Course _currentCourse;
+        private readonly List<(string, int)> _gradeBoundaries = new List<(string, int)>();
 
         public MainWindow() {
             InitializeComponent();
             LoadCourses();
+            LoadGrades();
             if (_currentCourse != null) CalculateValues();
             Courses.ItemsSource = _courses;
         }
@@ -41,7 +43,7 @@ namespace GradeCalculator {
             var document = XDocument.Load(stream, LoadOptions.None);
             var courses = document.Element("Courses");
             if (courses == null) return;
-            foreach (var course in courses.Elements()) {
+            foreach (var course in courses.Elements("course")) {
                 var newCourse = new Course(course.Attribute("courseCode")?.Value);
                 foreach (var grade in course.Elements()) {
                     newCourse.Grades.Add(new Grade(grade.Attribute("name")?.Value,
@@ -55,6 +57,17 @@ namespace GradeCalculator {
             }
 
             stream.Close();
+        }
+
+        private void LoadGrades() {
+            var stream = File.Open("Courses.xml", FileMode.Open);
+            var document = XDocument.Load(stream, LoadOptions.None);
+            var root = document.Element("Courses");
+            if (root == null) return;
+            foreach (var boundary in root.Element("grades")?.Elements()) {
+                _gradeBoundaries.Add((boundary.Attribute("grade")?.Value,
+                    Convert.ToInt32(boundary.Attribute("lowerBound")?.Value)));
+            }
         }
 
         /// <summary>
