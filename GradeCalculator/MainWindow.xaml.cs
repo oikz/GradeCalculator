@@ -64,8 +64,10 @@ namespace GradeCalculator {
                 }
 
                 _courses.Add(newCourse.CourseCode, newCourse);
-                _currentCourse ??= newCourse;
-                if (_currentCourse != null) GradeGrid.ItemsSource = newCourse.Grades;
+                
+                if (_currentCourse != null) continue;
+                _currentCourse = newCourse;
+                GradeGrid.ItemsSource = newCourse.Grades;
             }
 
             stream.Close();
@@ -143,8 +145,6 @@ namespace GradeCalculator {
 
             var required = (desired - completed) / (100 - completedPercentage);
             PercentageRequired.Content = "Percentage Required:\t\t" + Math.Max(Math.Round(required * 100, 2), 0.0);
-
-
             
             try {
                 GradeGrid.Items.Refresh();
