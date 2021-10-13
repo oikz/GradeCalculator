@@ -18,7 +18,7 @@ namespace GradeCalculator {
         /// Update the result of this grade by recalculating with new values
         /// </summary>
         public void UpdateResult() {
-            Result = Mark / 100 * Weight;
+            Result = Math.Round(Mark / 100 * Weight, 2);
         }
 
         /// <summary>

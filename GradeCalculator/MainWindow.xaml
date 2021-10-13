@@ -85,27 +85,26 @@
             </DataGrid>
 
             <Label Name="Completed" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 100" Foreground="White" />
+                   Padding="10 0 0 100" FontSize="15" Foreground="White" />
 
             <Label Name="CompletedPercentage" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 80" Foreground="White" />
+                   Padding="10 0 0 80" FontSize="15" Foreground="White" />
 
             <Label Name="AverageGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 60" Foreground="White" />
+                   Padding="10 0 0 60" FontSize="15" Foreground="White" />
 
             <Label Name="LetterGrade" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 40" Foreground="White" />
+                   Padding="10 0 0 40" FontSize="15" Foreground="White" />
 
             <Label Name="DesiredLetterGrade" Content="Desired Grade:" HorizontalAlignment="Left"
-                   VerticalAlignment="Bottom"
-                   Padding="10 0 0 20" Foreground="White" />
+                   VerticalAlignment="Bottom" Padding="10 0 0 20" FontSize="15" Foreground="White" />
 
             <TextBox Name="DesiredLetterGradeText" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                     Margin="200 0 0 20" Foreground="White" Background="Black" Width="20" Height="20" MaxLength="2"
-                     TextChanged="CellEdited" />
+                     Margin="248 0 0 20" FontSize="15" Foreground="White" Background="Black" Width="27" Height="20"
+                     MaxLength="2" TextChanged="CellEdited" />
 
             <Label Name="PercentageRequired" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                   Padding="10 0 0 0" Foreground="White" />
+                   Padding="10 0 0 0" FontSize="15" Foreground="White" />
 
             <Button Name="AddGrade" Content="Add Grade" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" Width="100" Height="50" Margin="300 0 0 50" Foreground="Black"
