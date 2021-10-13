@@ -1,4 +1,6 @@
-﻿namespace GradeCalculator {
+﻿using System;
+
+namespace GradeCalculator {
     public class Grade {
         public string Name { get; set; }
         public double Weight { get; set; }
@@ -9,7 +11,7 @@
             Name = name;
             Mark = mark;
             Weight = weight;
-            Result = Mark / 100 * weight;
+            Result = Math.Round(Mark / 100 * weight, 2);
         }
 
         /// <summary>

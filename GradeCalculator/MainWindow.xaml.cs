@@ -142,7 +142,7 @@ namespace GradeCalculator {
             }
 
             var required = (desired - completed) / (100 - completedPercentage);
-            PercentageRequired.Content = "Percentage Required:\t\t" + Math.Round(required * 100, 2);
+            PercentageRequired.Content = "Percentage Required:\t\t" + Math.Max(Math.Round(required * 100, 2), 0.0);
 
 
             
