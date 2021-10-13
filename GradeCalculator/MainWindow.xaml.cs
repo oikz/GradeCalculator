@@ -24,6 +24,7 @@ namespace GradeCalculator {
             LoadGrades();
             if (_currentCourse != null) CalculateValues();
             Courses.ItemsSource = _courses;
+            if (_courses.Any()) Courses.SelectedItem = _courses.ElementAt(0);
         }
 
         /// <summary>
