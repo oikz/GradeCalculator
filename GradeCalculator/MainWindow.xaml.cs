@@ -23,8 +23,8 @@ namespace GradeCalculator {
             LoadCourses();
             LoadGrades();
             if (_currentCourse != null) CalculateValues();
-            Courses.ItemsSource = _courses;
-            if (_courses.Any()) Courses.SelectedItem = _courses.ElementAt(0);
+            
+            if (_courses.Any()) ((RadioButton) Courses.Children[0]).IsChecked = true;
         }
 
         /// <summary>
@@ -66,6 +66,15 @@ namespace GradeCalculator {
 
                 _courses.Add(newCourse.CourseCode, newCourse);
                 
+                //Add to the sidebar
+                var button = new RadioButton {
+                    Content = newCourse.CourseCode, Height = 50, Style = Application.Current.Resources["RadioStyle"] as Style
+                };
+                button.Click += ViewCourse;
+                Courses.Children.Add(button);
+                
+                
+                //Show the grades from the first course
                 if (_currentCourse != null) continue;
                 _currentCourse = newCourse;
                 GradeGrid.ItemsSource = newCourse.Grades;
@@ -93,16 +102,14 @@ namespace GradeCalculator {
         /// </summary>
         /// <param name="sender">The source of the event</param>
         /// <param name="args">Event arguments</param>
-        private void ViewCourse(object sender, SelectionChangedEventArgs args) {
+        private void ViewCourse(object sender, RoutedEventArgs args) {
             //Get name from the source
-            if (!(((ListBox) sender).SelectedItem is KeyValuePair<string, Course> course)) {
-                return;
-            }
+            if (!(args.OriginalSource is RadioButton course)) return;
 
-            _currentCourse = course.Value;
+            _currentCourse = _courses[course.Content as string ?? string.Empty];
 
             //Create the grid of cells for displaying grades
-            GradeGrid.ItemsSource = course.Value.Grades;
+            GradeGrid.ItemsSource = _currentCourse.Grades;
 
             //Calculate and display the remaining values at the bottom
             CalculateValues();
@@ -265,7 +272,11 @@ namespace GradeCalculator {
                 //Don't let the user add the same named course twice
             }
 
-            Courses.Items.Refresh();
+            var button = new RadioButton {
+                Content = CourseName.Text, Height = 50, Style = Application.Current.Resources["RadioStyle"] as Style
+            };
+            button.Click += ViewCourse;
+            Courses.Children.Add(button);
         }
 
         /// <summary>
