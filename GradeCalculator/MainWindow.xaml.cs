@@ -270,6 +270,7 @@ namespace GradeCalculator {
                 _courses.Add(CourseName.Text, new Course(CourseName.Text));
             } catch (ArgumentException) {
                 //Don't let the user add the same named course twice
+                return;
             }
 
             var button = new RadioButton {
