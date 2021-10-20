@@ -8,7 +8,7 @@
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                               Background="{TemplateBinding Background}">
                             <TextBlock Text="{TemplateBinding Property=Content}" Foreground="White"
-                                       VerticalAlignment="Center" Margin="5 0 0 0" FontSize="25"/>
+                                       VerticalAlignment="Center" Margin="5 0 0 0" FontSize="28"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -19,6 +19,9 @@
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="DarkOrange" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="Orange" />
             </Trigger>
         </Style.Triggers>
