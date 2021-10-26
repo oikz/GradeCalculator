@@ -10,16 +10,17 @@
 
     <Window.Resources>
         <Style TargetType="{x:Type DataGridCell}" x:Key="BlackCell">
-            <Setter Property="Background" Value="Black" />
+            <Setter Property="Background" Value="#272727" />
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#3c3c3c" />
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="BlackHeader">
-            <Setter Property="Background" Value="Black" />
+            <Setter Property="Background" Value="#272727" />
             <Setter Property="Foreground" Value="White" />
         </Style>
     </Window.Resources>
     <Window.Background>
-        <SolidColorBrush Color="Black" />
+        <SolidColorBrush Color="#272727" />
     </Window.Background>
 
     <Grid>
@@ -29,12 +30,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid Name="AlwaysVisible" Grid.Column="0">
-            <Rectangle HorizontalAlignment="Left" Height="684" Width="1" Margin="160 0 0 0" Stroke="White" Fill="White"
+            <Rectangle HorizontalAlignment="Left" Height="684" Width="1" Margin="160 0 0 0" Stroke="#3c3c3c" Fill="White"
                        VerticalAlignment="Top" />
 
             <!--Menu and Side List box-->
             <StackPanel Name="Courses" HorizontalAlignment="Left" Height="684" Width="160"
-                        Background="Black" Focusable="False" />
+                        Background="#272727" Focusable="False" />
 
             <Button Name="NewCourse" Grid.Column="0" Content="Add Course" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" Width="160" Height="50" Margin="0 0 0 100" Foreground="Black"
@@ -54,9 +55,9 @@
         </Grid>
         <Grid Name="GradeDisplay" Grid.Column="1">
             <!-- Display of grades -->
-            <DataGrid Name="GradeGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
-                      BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
-                      HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
+            <DataGrid Name="GradeGrid" AutoGenerateColumns="False" HeadersVisibility="Column" RowHeight="32"
+                      BorderBrush="{x:Null}" FontSize="20" Background="#272727" Foreground="White"
+                      HorizontalGridLinesBrush="#3c3c3c" VerticalGridLinesBrush="#3c3c3c" CanUserAddRows="False"
                       CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
                       CanUserSortColumns="False" CanUserResizeRows="False"
                       CurrentCellChanged="CellEdited" PreviewKeyDown="CellKeyDown"
@@ -110,7 +111,7 @@
         </Grid>
         <Grid Name="GradeSetting" Grid.Column="1" Visibility="Collapsed">
             <DataGrid Name="GradeBoundaryGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
-                      BorderBrush="{x:Null}" FontSize="20" Background="Black" Foreground="White"
+                      BorderBrush="{x:Null}" FontSize="20" Background="#272727" Foreground="White"
                       HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" CanUserAddRows="False"
                       CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserDeleteRows="False"
                       CanUserSortColumns="False" CanUserResizeRows="False" Margin="135 0 0 0"

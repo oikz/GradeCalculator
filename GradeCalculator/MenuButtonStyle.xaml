@@ -19,10 +19,10 @@
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="DarkOrange" />
+                <Setter Property="Background" Value="#303030" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Orange" />
+                <Setter Property="Background" Value="#343434" />
             </Trigger>
         </Style.Triggers>
     </Style>
