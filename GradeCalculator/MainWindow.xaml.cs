@@ -17,8 +17,13 @@ namespace GradeCalculator {
         private readonly Dictionary<string, Course> _courses = new Dictionary<string, Course>();
         private Course _currentCourse;
         private readonly List<GradeBoundary> _gradeBoundaries = new List<GradeBoundary>();
+        private readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\grades\\";
 
         public MainWindow() {
+            //Create a folder to store the configuration/data files
+            Directory.CreateDirectory(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\grades\\");
+
             InitializeComponent();
             LoadCourses();
             LoadGrades();
@@ -32,13 +37,13 @@ namespace GradeCalculator {
         /// </summary>
         private void LoadCourses() {
             //No file exists already, create default empty file
-            if (!File.Exists("Courses.xml")) {
-                var writer = XmlWriter.Create("Courses.xml");
+            if (!File.Exists(path + "Courses.xml")) {
+                var writer = XmlWriter.Create(path + "Courses.xml");
                 writer.WriteElementString("Courses", null);
                 writer.Close();
 
                 //Add default grade boundaries
-                var load = File.Open("Courses.xml", FileMode.Open);
+                var load = File.Open(path + "Courses.xml", FileMode.Open);
                 var doc = XDocument.Load(load, LoadOptions.None);
                 var root = doc.Element("Courses");
                 var grades = new XElement("grades");
@@ -47,12 +52,12 @@ namespace GradeCalculator {
 
 
                 load.Close();
-                doc.Save("Courses.xml");
+                doc.Save(path + "Courses.xml");
                 return;
             }
 
             //Load all courses from the file
-            var stream = File.Open("Courses.xml", FileMode.Open);
+            var stream = File.Open(path + "Courses.xml", FileMode.Open);
             var document = XDocument.Load(stream, LoadOptions.None);
             var courses = document.Element("Courses");
             if (courses == null) return;
@@ -65,15 +70,16 @@ namespace GradeCalculator {
                 }
 
                 _courses.Add(newCourse.CourseCode, newCourse);
-                
+
                 //Add to the sidebar
                 var button = new RadioButton {
-                    Content = newCourse.CourseCode, Height = 50, Style = Application.Current.Resources["RadioStyle"] as Style
+                    Content = newCourse.CourseCode, Height = 50,
+                    Style = Application.Current.Resources["RadioStyle"] as Style
                 };
                 button.Click += ViewCourse;
                 Courses.Children.Add(button);
-                
-                
+
+
                 //Show the grades from the first course
                 if (_currentCourse != null) continue;
                 _currentCourse = newCourse;
@@ -87,7 +93,7 @@ namespace GradeCalculator {
         /// Load the grade boundaries from the XML file and store them locally
         /// </summary>
         private void LoadGrades() {
-            var stream = File.Open("Courses.xml", FileMode.Open);
+            var stream = File.Open(path + "Courses.xml", FileMode.Open);
             var document = XDocument.Load(stream, LoadOptions.None);
             var root = document.Element("Courses");
             if (root == null) return;
@@ -140,7 +146,7 @@ namespace GradeCalculator {
                     averageLetterGrade = _gradeBoundaries[i].Grade;
                 }
             }
-            
+
             LetterGrade.Content = "Average Letter Grade:\t\t" + averageLetterGrade;
 
             var desiredGrade = _gradeBoundaries.Where(boundary => boundary.Grade.Equals(DesiredLetterGradeText.Text));
@@ -153,7 +159,7 @@ namespace GradeCalculator {
 
             var required = (desired - completed) / (100 - completedPercentage);
             PercentageRequired.Content = "Percentage Required:\t\t" + Math.Max(Math.Round(required * 100, 2), 0.0);
-            
+
             try {
                 GradeGrid.Items.Refresh();
             } catch (InvalidOperationException) {
@@ -207,8 +213,8 @@ namespace GradeCalculator {
         /// <param name="args">The arguments supplied with the event - text input</param>
         private void GridTextValidation(object sender, TextCompositionEventArgs args) {
             if (args.OriginalSource is DataGridCell) return;
-            if (((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Name") ||
-                ((DataGridCell) ((TextBox) args.OriginalSource).Parent).Column.Header.Equals("Grade"))
+            if (((DataGridCell)((TextBox)args.OriginalSource).Parent).Column.Header.Equals("Name") ||
+                ((DataGridCell)((TextBox)args.OriginalSource).Parent).Column.Header.Equals("Grade"))
                 return;
             args.Handled = new Regex("[^0-9.]+").IsMatch(args.Text);
         }
@@ -220,12 +226,12 @@ namespace GradeCalculator {
         /// <param name="args">The arguments supplied with the event - text input (unused)</param>
         private void SaveCourses(object sender, RoutedEventArgs args) {
             //Reset the file to only contain the root node - <Courses/>
-            var writer = XmlWriter.Create("Courses.xml");
+            var writer = XmlWriter.Create(path + "Courses.xml");
             writer.WriteElementString("Courses", null);
             writer.Close();
 
             //Load in the file
-            var stream = File.Open("Courses.xml", FileMode.Open);
+            var stream = File.Open(path + "Courses.xml", FileMode.Open);
             var document = XDocument.Load(stream, LoadOptions.None);
             var courses = document.Element("Courses");
 
@@ -256,7 +262,7 @@ namespace GradeCalculator {
             courses?.Add(grades);
 
             stream.Close();
-            document.Save("Courses.xml");
+            document.Save(path + "Courses.xml");
         }
 
         /// <summary>
@@ -298,8 +304,8 @@ namespace GradeCalculator {
         /// </summary>
         /// <param name="grades">The Grades element of the XML file being created</param>
         private void DefaultGrades(XElement grades) {
-            string[] letters = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E"};
-            int[] lowerBounds = {90, 85, 80, 75, 70, 65, 60, 55, 50, 40, 0};
+            string[] letters = { "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E" };
+            int[] lowerBounds = { 90, 85, 80, 75, 70, 65, 60, 55, 50, 40, 0 };
             for (var i = 0; i < letters.Length; i++) {
                 var elem = new XElement("boundary");
                 elem.SetAttributeValue("grade", letters[i]);
